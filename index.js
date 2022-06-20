@@ -60,9 +60,11 @@ app.post('/api/users/:_id/exercises',(req,res)=>
     if(value.count && id == value["_id"])
     {
       isFlag = true;
-      count = value.count++;
-      log.push(value.log);
-      log.push({"description":description,"duration":parseInt(duration),"date":objectDate})
+      count = value.count;
+      ++count;
+      var dummyLog = value.log;
+      dummyLog.push({"description":description,"duration":parseInt(duration),"date":objectDate})
+      log = dummyLog;
       allUserDataWithLogs[index].count = count;
       allUserDataWithLogs[index].log = log;
     } 
@@ -77,7 +79,7 @@ app.post('/api/users/:_id/exercises',(req,res)=>
 
 app.get('/api/users/:_id/logs',(req,res)=>
 {
-  var id = req.params[":_id"];
+  var id = req.params["_id"];
   var username = "";
   allUserData.map((value)=>
   {
